@@ -79,7 +79,7 @@ public:
     // Game objects
     Paddle playerPaddles[2] = {Paddle(0), Paddle(1)};
     Ball ball;
-    bool playerKeys[4] = {false, false, false, false};
+    bool playerKeys[8] = {false, false, false, false, false, false, false, false};
     int p1Points = 0;
     int p2Points = 0;
     bool playHitSound = false;

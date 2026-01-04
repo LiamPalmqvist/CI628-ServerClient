@@ -82,15 +82,31 @@ void Game::update()
     }
     if (playerKeys[2])
     {
+        //std::cout << "Increasing size for player 1" << std::endl;
+    }
+    if (playerKeys[3])
+    {
+        //std::cout << "Decreasing size for player 1" << std::endl;
+    }
+    if (playerKeys[4])
+    {
         // std::cout << "was " << playerPaddles[1].get_y_pos() << std::endl;
         playerPaddles[1].set_y_pos(playerPaddles[1].get_y_pos()-playerPaddles[1].get_speed());
         // std::cout << "is now " << playerPaddles[1].get_y_pos() << std::endl;
     }
-    if (playerKeys[3])
+    if (playerKeys[5])
     {
         // std::cout << "was " << playerPaddles[1].get_y_pos() << std::endl;
         playerPaddles[1].set_y_pos(playerPaddles[1].get_y_pos()+playerPaddles[1].get_speed());
         // std::cout << "is now " << playerPaddles[1].get_y_pos() << std::endl;
+    }
+    if (playerKeys[6])
+    {
+        //std::cout << "Increasing size for player 2" << std::endl;
+    }
+    if (playerKeys[7])
+    {
+        //std::cout << "Decreasing size for player 2" << std::endl;
     }
 
     double ballx = ball.get_x_pos();
@@ -139,7 +155,7 @@ void Game::update()
     const double dy = ballspeed * -sin(balldirection);
     ball.set_xy_pos(ballx + dx, bally + dy);
 
-    std::cout << ball.get_direction() << " degrees, dx: " << dx << ", dy: " << dy << std::endl;
+    //std::cout << ball.get_direction() << " degrees, dx: " << dx << ", dy: " << dy << std::endl;
 }
 
 void Game::checkCollisions()

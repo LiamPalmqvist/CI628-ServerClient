@@ -200,10 +200,14 @@ void Client::sendToServer(int sockfd)
     {
         if (assigned)
         {
+
             std::string message = keys[0] == true ? "1" : "0";
             message += (keys[1] == true ? "1" : "0");
+            message += (keys[2] == true ? "1" : "0");
+            message += (keys[3] == true ? "1" : "0");
             //std::cout << "Message to server: " << message << std::endl;
             tryWriteToServer(sockfd, message);
+            message_to_server = message;
             std::this_thread::sleep_for(std::chrono::milliseconds(16));
         }
         //if (game.playing)
@@ -363,10 +367,16 @@ void Client::getInputs(SDL_Event &event)
     case SDLK_s:
         keys[1] = event.type == SDL_KEYDOWN;
         break;
+    case SDLK_UP:
+        keys[2] = event.type == SDL_KEYDOWN;
+        break;
+    case SDLK_DOWN:
+        keys[3] = event.type == SDL_KEYDOWN;
+        break;
     default:
         break;
     }
-    //std::cout << "keys: " << keys[0] << " " << keys[1] << std::endl;
+    std::cout << "keys: " << keys[0] << " " << keys[1] << " " << keys[2] << " " << keys[3] << std::endl;
 }
 
 void Client::loadMedia()

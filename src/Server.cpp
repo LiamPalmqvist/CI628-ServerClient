@@ -27,12 +27,16 @@ Server::Server(const std::string& ipAddress, const int port)
         {
             for (int i = 0; i < clients.size(); i++)
             {
-                game.playerKeys[2*i] = clients[i]->keys[0];
-                game.playerKeys[2*i + 1] = clients[i]->keys[1];
+                game.playerKeys[4*i] = clients[i]->keys[0];
+                game.playerKeys[4*i + 1] = clients[i]->keys[1];
+                game.playerKeys[4*i + 2] = clients[i]->keys[2];
+                game.playerKeys[4*i + 3] = clients[i]->keys[3];
             }
-            // std::cout << "Updating keys: "
-            //           << game.playerKeys[0] << " " << game.playerKeys[1] << " "
-            //           << game.playerKeys[2] << " " << game.playerKeys[3] << std::endl;
+            std::cout << "Updating keys: "
+                      << game.playerKeys[0] << " " << game.playerKeys[1] << " "
+                      << game.playerKeys[2] << " " << game.playerKeys[3] << " "
+                      << game.playerKeys[4] << " " << game.playerKeys[5] << " "
+                      << game.playerKeys[6] << " " << game.playerKeys[7] << std::endl;
         }
         catch (std::exception& e)
         {
@@ -254,6 +258,7 @@ std::string ServerClientInstance::tryListenToClient()
     }
 
     auto buffer_str = std::string(buffer, static_cast<size_t>(n));
+    std::cout << "Received from client " << _clientID << ": " << buffer_str << std::endl;
     return buffer_str;
 }
 
@@ -317,10 +322,12 @@ bool ServerClientInstance::trySendStringToClient(const std::string& message) con
 
 void ServerClientInstance::decodeData(const std::string& data)
 {
-    if (data.size() >= 2)
+    if (data.size() >= 4)
     {
         keys[0] = (data[0] == '1');
         keys[1] = (data[1] == '1');
+        keys[2] = (data[2] == '1');
+        keys[3] = (data[3] == '1');
     }
 }
 

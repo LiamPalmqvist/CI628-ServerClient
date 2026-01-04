@@ -53,7 +53,7 @@ public:
     // pass the clients vector by reference to avoid copying and to
     // keep the data up to date
     ServerClientInstance(int sockfd, int clientID, Game* gameptr, std::mutex* gameMutexPtr);
-    bool keys[2] = {false, false};
+    bool keys[4] = {false, false, false, false};
     bool connected = true;
 };
 

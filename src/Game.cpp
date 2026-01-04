@@ -80,12 +80,23 @@ void Game::update()
         playerPaddles[0].set_y_pos(playerPaddles[0].get_y_pos()+playerPaddles[0].get_speed());
         // std::cout << "is now " << playerPaddles[0].get_y_pos() << std::endl;
     }
-    if (playerKeys[2])
+    if (playerKeys[2]) // increase size/decrease speed
     {
-        //std::cout << "Increasing size for player 1" << std::endl;
+        if (playerPaddles[0].get_ySize() <= 200)
+        {
+            //std::cout << "Increasing size for player 1" << std::endl;
+            playerPaddles[0].set_ySize(playerPaddles[0].get_ySize() + 1.0f);
+            playerPaddles[0].set_speed(playerPaddles[0].get_speed() - 0.1f);
+        }
     }
-    if (playerKeys[3])
+    if (playerKeys[3]) // decrease size/increase speed
     {
+        if (playerPaddles[0].get_ySize() >= 50)
+        {
+            //std::cout << "Increasing size for player 1" << std::endl;
+            playerPaddles[0].set_ySize(playerPaddles[0].get_ySize() - 1.0f);
+            playerPaddles[0].set_speed(playerPaddles[0].get_speed() + 0.1f);
+        }
         //std::cout << "Decreasing size for player 1" << std::endl;
     }
     if (playerKeys[4])
@@ -102,11 +113,21 @@ void Game::update()
     }
     if (playerKeys[6])
     {
-        //std::cout << "Increasing size for player 2" << std::endl;
+        if (playerPaddles[1].get_ySize() <= 200)
+        {
+            //std::cout << "Increasing size for player 1" << std::endl;
+            playerPaddles[1].set_ySize(playerPaddles[1].get_ySize() + 1.0f);
+            playerPaddles[1].set_speed(playerPaddles[1].get_speed() - 0.1f);
+        }
     }
     if (playerKeys[7])
     {
-        //std::cout << "Decreasing size for player 2" << std::endl;
+        if (playerPaddles[1].get_ySize() >= 50)
+        {
+            //std::cout << "Increasing size for player 1" << std::endl;
+            playerPaddles[1].set_ySize(playerPaddles[1].get_ySize() - 1.0f);
+            playerPaddles[1].set_speed(playerPaddles[1].get_speed() + 0.1f);
+        }
     }
 
     double ballx = ball.get_x_pos();

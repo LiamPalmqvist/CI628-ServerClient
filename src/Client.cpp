@@ -376,7 +376,7 @@ void Client::getInputs(SDL_Event &event)
     default:
         break;
     }
-    std::cout << "keys: " << keys[0] << " " << keys[1] << " " << keys[2] << " " << keys[3] << std::endl;
+    // std::cout << "keys: " << keys[0] << " " << keys[1] << " " << keys[2] << " " << keys[3] << std::endl;
 }
 
 void Client::loadMedia()

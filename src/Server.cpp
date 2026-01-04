@@ -32,11 +32,11 @@ Server::Server(const std::string& ipAddress, const int port)
                 game.playerKeys[4*i + 2] = clients[i]->keys[2];
                 game.playerKeys[4*i + 3] = clients[i]->keys[3];
             }
-            std::cout << "Updating keys: "
-                      << game.playerKeys[0] << " " << game.playerKeys[1] << " "
-                      << game.playerKeys[2] << " " << game.playerKeys[3] << " "
-                      << game.playerKeys[4] << " " << game.playerKeys[5] << " "
-                      << game.playerKeys[6] << " " << game.playerKeys[7] << std::endl;
+            // std::cout << "Updating keys: "
+            //           << game.playerKeys[0] << " " << game.playerKeys[1] << " "
+            //           << game.playerKeys[2] << " " << game.playerKeys[3] << " "
+            //           << game.playerKeys[4] << " " << game.playerKeys[5] << " "
+            //           << game.playerKeys[6] << " " << game.playerKeys[7] << std::endl;
         }
         catch (std::exception& e)
         {
@@ -53,7 +53,7 @@ Server::Server(const std::string& ipAddress, const int port)
 
 int Server::openPort(const std::string& ipAddress, const int port)
 {
-    std::cout << "Hello" << std::endl;
+    std::cout << "Server up" << std::endl;
 
     // First, validate the IP and the Port Number
     if (!(validateIpAddress(ipAddress) && validatePortNumber(port)))
@@ -258,7 +258,7 @@ std::string ServerClientInstance::tryListenToClient()
     }
 
     auto buffer_str = std::string(buffer, static_cast<size_t>(n));
-    std::cout << "Received from client " << _clientID << ": " << buffer_str << std::endl;
+    // std::cout << "Received from client " << _clientID << ": " << buffer_str << std::endl;
     return buffer_str;
 }
 

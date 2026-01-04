@@ -82,6 +82,7 @@ void Client::listenToServer(const int sockfd)
 {
     std::string buffer_str;
     int* buffer_int;
+    float* buffer_float;
     while (connected)
     {
         std::this_thread::sleep_for(std::chrono::seconds(1/60));
@@ -129,10 +130,10 @@ void Client::listenToServer(const int sockfd)
         else
         {
             // std::cout << "Trying to recieve int array from server" << std::endl;
-            buffer_int = tryRecvIntFromServer(sockfd);
-            game.decodeData(buffer_int);
+            buffer_float = tryRecvFloatFromServer(sockfd);
+            game.decodeFloatData(buffer_float);
             // game.printData();
-            bzero(buffer_int, sizeof(int)*17);
+            bzero(buffer_float, sizeof(float)*18);
             // We can do this because we know the size of the data coming over
             // exactly
         }
@@ -168,6 +169,39 @@ int* Client::tryRecvIntFromServer(const int sockfd)
 
     static int buffer[18];
     if (const int n = recv(sockfd, buffer, sizeof(buffer), 0); n <= 0)
+    {
+        if (n == 0)
+        {
+            std::cout << "Client disconnected" << std::endl;
+        }
+        else
+        {
+            std::cout << "Error reading from socket" << std::endl;
+        }
+        connected = false;
+        close(sockfd);
+    }
+
+    // std::cout << "BUFFER: " << std::endl;
+    // std::string str = "";
+    // int i = 0;
+    // for (i; i < 16; i++)
+    // {
+    //     str += std::to_string(buffer[i]) + ", ";
+    // }
+    // str += std::to_string(buffer[i+1]);
+    // std::cout << str << std::endl;
+    // std::cout << "END BUFFER" << std::endl;
+
+    return buffer;
+}
+
+float* Client::tryRecvFloatFromServer(const int sockfd)
+{
+    //std::cout << "Trying to read from socket" << std::endl;
+
+    static float buffer[18];
+    if (const float n = recv(sockfd, buffer, sizeof(buffer), 0); n <= 0)
     {
         if (n == 0)
         {
@@ -403,7 +437,7 @@ void Client::instantiateGameObjects()
 {
     for (auto paddle : game.playerPaddles)
     {
-        SDL_Rect paddleRect = {paddle.get_x_pos(), paddle.get_y_pos(), paddle.get_xSize(), paddle.get_ySize()};
+        SDL_Rect paddleRect = {static_cast<int>(paddle.get_x_pos()), static_cast<int>(paddle.get_y_pos()), paddle.get_xSize(), paddle.get_ySize()};
         playerPaddles.push_back(paddleRect);
     }
 }

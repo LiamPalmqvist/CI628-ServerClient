@@ -53,6 +53,7 @@ class Client {
     static bool validatePortNumber(const int &portNumber);
     std::string tryRecvStringFromServer(int sockfd);
     int* tryRecvIntFromServer(int sockfd);
+    float* tryRecvFloatFromServer(int sockfd);
     void tryWriteToServer(int sockfd, const std::string& message);
     void listenToServer(int sockfd);
     void sendToServer(int sockfd);

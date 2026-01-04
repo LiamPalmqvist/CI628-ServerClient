@@ -262,13 +262,13 @@ void ServerClientInstance::sendToClient()
     while (connected)
     {
 
-        constexpr size_t totalBytes = sizeof(int) * 18;
-        int data[18];
+        constexpr size_t totalBytes = sizeof(float) * 18;
+        float data[18];
 
         // we can use this to scope the lock
         {
             std::lock_guard lock(*gameMutex);
-            game->encodeData(data);
+            game->encodeFloatData(data);
         }
 
         const auto data_char = reinterpret_cast<const char*>(data);

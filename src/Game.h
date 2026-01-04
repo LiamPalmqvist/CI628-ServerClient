@@ -16,18 +16,18 @@ class GameObject
 {
 public:
     // Variables
-    int _xPos;
-    int _yPos;
-    int _speed;
+    float _xPos; // the bottom left of the object
+    float _yPos;
+    float _speed;
 
     // Functions
-    [[nodiscard]] int get_x_pos() const { return _xPos; }
-    [[nodiscard]] int get_y_pos() const { return _yPos; }
-    [[nodiscard]] int get_speed() const { return _speed; }
+    [[nodiscard]] float get_x_pos() const { return _xPos; }
+    [[nodiscard]] float get_y_pos() const { return _yPos; }
+    [[nodiscard]] float get_speed() const { return _speed; }
 
-    void set_x_pos(const int xPos) { _xPos = xPos; }
-    void set_y_pos(const int yPos) { _yPos = yPos; }
-    void set_speed(const int speed) { _speed = speed; }
+    void set_x_pos(const float xPos) { _xPos = xPos; }
+    void set_y_pos(const float yPos) { _yPos = yPos; }
+    void set_speed(const float speed) { _speed = speed; }
 };
 
 class Paddle : public GameObject
@@ -53,7 +53,7 @@ class Ball : public GameObject
 {
     // Private variables
     int _radius;
-    int _direction;
+    float _direction;
 public:
     // Public initialiser
     Ball();
@@ -61,11 +61,11 @@ public:
 
     // Public functions
     [[nodiscard]] int get_radius() const { return _radius; }
-    [[nodiscard]] int get_direction() const { return _direction; }
+    [[nodiscard]] float get_direction() const { return _direction; }
 
     void set_radius(const int radius) { _radius = radius; }
-    void set_direction(const int direction) { _direction = direction; }
-    void set_xy_pos(const int xPos, const int yPos) { _xPos = xPos; _yPos = yPos; }
+    void set_direction(const float direction) { _direction = direction; }
+    void set_xy_pos(const float xPos, const float yPos) { _xPos = xPos; _yPos = yPos; }
 };
 
 class Game
@@ -93,7 +93,9 @@ public:
 
     // Public functions and methods
     void encodeData(int* outBuffer) const;
+    void encodeFloatData(float* outBuffer) const;
     void decodeData(int* data);
+    void decodeFloatData(float* data);
     void printData() const;
     void update();
 };

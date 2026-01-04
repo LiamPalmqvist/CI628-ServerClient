@@ -81,8 +81,6 @@ Client::Client(const std::string& ipAddress, const int port)
 void Client::listenToServer(const int sockfd)
 {
     std::string buffer_str;
-    int* buffer_int;
-    float* buffer_float;
     while (connected)
     {
         std::this_thread::sleep_for(std::chrono::seconds(1/60));
@@ -130,8 +128,8 @@ void Client::listenToServer(const int sockfd)
         else
         {
             // std::cout << "Trying to recieve int array from server" << std::endl;
-            buffer_float = tryRecvFloatFromServer(sockfd);
-            game.decodeFloatData(buffer_float);
+            float* buffer_float = tryRecvFloatFromServer(sockfd);
+            game.decodeData(buffer_float);
             // game.printData();
             bzero(buffer_float, sizeof(float)*18);
             // We can do this because we know the size of the data coming over
@@ -145,7 +143,7 @@ std::string Client::tryRecvStringFromServer(const int sockfd)
 {
     char buffer[256];
 
-    if (const int n = recv(sockfd, buffer, sizeof(buffer), 0); n <= 0)
+    if (const ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0); n <= 0)
     {
         if (n == 0)
         {
@@ -158,40 +156,6 @@ std::string Client::tryRecvStringFromServer(const int sockfd)
         connected = false;
         close(sockfd);
     }
-
-    return buffer;
-}
-
-// Disable with comment
-int* Client::tryRecvIntFromServer(const int sockfd)
-{
-    //std::cout << "Trying to read from socket" << std::endl;
-
-    static int buffer[18];
-    if (const int n = recv(sockfd, buffer, sizeof(buffer), 0); n <= 0)
-    {
-        if (n == 0)
-        {
-            std::cout << "Client disconnected" << std::endl;
-        }
-        else
-        {
-            std::cout << "Error reading from socket" << std::endl;
-        }
-        connected = false;
-        close(sockfd);
-    }
-
-    // std::cout << "BUFFER: " << std::endl;
-    // std::string str = "";
-    // int i = 0;
-    // for (i; i < 16; i++)
-    // {
-    //     str += std::to_string(buffer[i]) + ", ";
-    // }
-    // str += std::to_string(buffer[i+1]);
-    // std::cout << str << std::endl;
-    // std::cout << "END BUFFER" << std::endl;
 
     return buffer;
 }
@@ -201,7 +165,7 @@ float* Client::tryRecvFloatFromServer(const int sockfd)
     //std::cout << "Trying to read from socket" << std::endl;
 
     static float buffer[18];
-    if (const float n = recv(sockfd, buffer, sizeof(buffer), 0); n <= 0)
+    if (const ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0); n <= 0)
     {
         if (n == 0)
         {
@@ -232,12 +196,11 @@ float* Client::tryRecvFloatFromServer(const int sockfd)
 void Client::sendToServer(int sockfd)
 {
     //char buffer[256];
-    std::string message;
     while (connected)
     {
         if (assigned)
         {
-            message = keys[0] == true ? "1" : "0";
+            std::string message = keys[0] == true ? "1" : "0";
             message += (keys[1] == true ? "1" : "0");
             //std::cout << "Message to server: " << message << std::endl;
             tryWriteToServer(sockfd, message);
@@ -258,7 +221,7 @@ void Client::sendToServer(int sockfd)
 // Disable warning
 void Client::tryWriteToServer(const int sockfd, const std::string& message)
 {
-    if (const int n = write(sockfd, &message, sizeof(message)); n < 0)
+    if (const ssize_t n = write(sockfd, &message, sizeof(message)); n < 0)
     {
         std::cout << "Error writing to socket" << std::endl;
         close(sockfd);
@@ -368,10 +331,10 @@ void Client::init_SDL(const int sockfd) {
 
 
     // Free resources and close SDL
-    for (int i = 0; i < 10; i++)
+    for (auto & number : numbers)
     {
-        SDL_DestroyTexture(numbers[i]);
-        numbers[i] = nullptr;
+        SDL_DestroyTexture(number);
+        number = nullptr;
     }
 
     Mix_FreeChunk(ballSound);

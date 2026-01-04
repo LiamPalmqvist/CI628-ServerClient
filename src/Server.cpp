@@ -268,7 +268,7 @@ void ServerClientInstance::sendToClient()
         // we can use this to scope the lock
         {
             std::lock_guard lock(*gameMutex);
-            game->encodeFloatData(data);
+            game->encodeData(data);
         }
 
         const auto data_char = reinterpret_cast<const char*>(data);

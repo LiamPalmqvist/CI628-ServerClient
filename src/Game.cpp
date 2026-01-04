@@ -159,28 +159,6 @@ void Game::checkCollisions()
     const int p2xSize = playerPaddles[1].get_xSize();
     const int p2ySize = playerPaddles[1].get_ySize();
 
-    // // Reflect the ball when hitting the top of bottom
-    // if (ballY <= 0)
-    // {
-    //     // calculate the angle of the ball
-    //     // calculate the x direction of the ball
-    //
-    //     rotation = rotation + 180;
-    //     rotation = 180 - rotation;
-    //
-    //     ball.set_y_pos(0 + ball.get_radius() * 2);
-    //     ball.set_direction(rotation);
-    //     playHitSound = true;
-    // }
-    // else if (ballY >= 600)
-    // {
-    //     rotation = rotation + 180;
-    //     rotation = 180 - rotation;
-    //
-    //     ball.set_y_pos(600 - ball.get_radius() * 2);
-    //     ball.set_direction(rotation);
-    //     playHitSound = true;
-    // }
 
     // Reflect ball when hitting top or bottom
     if (ballY - ball.get_radius() <= 0)
@@ -220,31 +198,6 @@ void Game::checkCollisions()
         playHitSound = true;
         std::cout << "Detected bottom wall hit" << std::endl;
     }
-
-    // // Reflect the ball when hitting the paddles
-    // if (ballX <= p1x + p1xSize && ballX >= p1x && ballY <= p1y + p1ySize && ballY >= p1y)
-    // {
-    //     rotation = 180 - rotation;
-    //     ball.set_direction(rotation);
-    //     ball.set_x_pos(p1x + p1xSize + ball.get_radius() * 2);
-    //     playHitSound = true;
-    // }
-    // else if (ballX >= p2x - p2xSize && ballX <= p2x && ballY <= p2y + p2ySize && ballY >= p2y)
-    // {
-    //     rotation = 180 - rotation;
-    //     ball.set_direction(rotation);
-    //     ball.set_x_pos(p2x - ball.get_radius() * 2);
-    //     playHitSound = true;
-    // }
-
-
-    // bounds of the paddles
-    // paddle1
-    // topLeft = p1x, p1y
-    // topRight = p1x + p1xSize, p1y
-    // bottomLeft = p1x, p1y + p1ySize
-    // bottomRight = p1x + p1xSize, p1y + p1ySize
-
 
     // Ball is within left paddle bounds plus radius
     if (
@@ -298,7 +251,7 @@ void Game::checkCollisions()
     }
 }
 
-void Game::encodeData(int* outBuffer) const
+void Game::encodeData(float* outBuffer) const
 {
     // get information about the paddles
     outBuffer[0] = playerPaddles[0].get_x_pos();
@@ -325,63 +278,7 @@ void Game::encodeData(int* outBuffer) const
     outBuffer[17] = playHitSound ? 1 : 0;
 }
 
-void Game::encodeFloatData(float* outBuffer) const
-{
-    // get information about the paddles
-    outBuffer[0] = playerPaddles[0].get_x_pos();
-    outBuffer[1] = playerPaddles[0].get_y_pos();
-    outBuffer[2] = playerPaddles[0].get_speed();
-    outBuffer[3] = playerPaddles[0].get_xSize();
-    outBuffer[4] = playerPaddles[0].get_ySize();
-    outBuffer[5] = p1Points;
-
-    outBuffer[6] = playerPaddles[1].get_x_pos();
-    outBuffer[7] = playerPaddles[1].get_y_pos();
-    outBuffer[8] = playerPaddles[1].get_speed();
-    outBuffer[9] = playerPaddles[1].get_xSize();
-    outBuffer[10] = playerPaddles[1].get_ySize();
-    outBuffer[11] = p2Points;
-
-    outBuffer[12] = ball.get_x_pos();
-    outBuffer[13] = ball.get_y_pos();
-    outBuffer[14] = ball.get_speed();
-    outBuffer[15] = ball.get_radius();
-    outBuffer[16] = ball.get_direction();
-
-    // Whether to play the hit sound effect
-    outBuffer[17] = playHitSound ? 1 : 0;
-}
-
-void Game::decodeData(int* data)
-{
-    playerPaddles[0].set_x_pos(data[0]);
-    playerPaddles[0].set_y_pos(data[1]);
-    playerPaddles[0].set_speed(data[2]);
-    playerPaddles[0].set_xSize(data[3]);
-    playerPaddles[0].set_ySize(data[4]);
-    p1Points = data[5];
-
-    playerPaddles[1].set_x_pos(data[6]);
-    playerPaddles[1].set_y_pos(data[7]);
-    playerPaddles[1].set_speed(data[8]);
-    playerPaddles[1].set_xSize(data[9]);
-    playerPaddles[1].set_ySize(data[10]);
-    p2Points = data[11];
-
-    ball.set_x_pos(data[12]);
-    ball.set_y_pos(data[13]);
-    ball.set_speed(data[14]);
-    ball.set_radius(data[15]);
-    ball.set_direction(data[16]);
-
-    // Reflect the ball when hitting the top of bottom
-    if (data[17] == 1)
-    {
-        Mix_PlayChannel(-1, ballHitSound, 0);
-    }
-}
-
-void Game::decodeFloatData(float* data)
+void Game::decodeData(float* data)
 {
     playerPaddles[0].set_x_pos(data[0]);
     playerPaddles[0].set_y_pos(data[1]);

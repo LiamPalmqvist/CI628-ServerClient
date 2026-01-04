@@ -92,10 +92,8 @@ public:
     Game();
 
     // Public functions and methods
-    void encodeData(int* outBuffer) const;
-    void encodeFloatData(float* outBuffer) const;
-    void decodeData(int* data);
-    void decodeFloatData(float* data);
+    void encodeData(float* outBuffer) const;
+    void decodeData(float* data);
     void printData() const;
     void update();
 };

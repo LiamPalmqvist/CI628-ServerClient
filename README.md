@@ -22,7 +22,7 @@ To get started with the project, follow these steps:
 7. Enjoy playing Pong!
 
 ## Controls
-- Player: W (up), S (down)
+- Player: W (up), S (down), Up Arrow (increase size), Down Arrow (decrease size)
 
 ## License
 This project is licensed under the GPL 2.0 License. See the LICENSE file for details.

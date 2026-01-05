@@ -14,7 +14,7 @@ This is a simple multiplayer Pong game developed as part of the CI628 course. Th
 ## Getting Started
 To get started with the project, follow these steps:
 1. Clone the repository with `git clone`
-2. Navigate to the project directory: `cd CI628-ClientServer`
+2. Navigate to the project directory: `cd CI628-ServerClient`
 3. Create a build directory: `mkdir build && cd build`
 4. Generate the Makefile using CMake: `cmake ..`
 5. Run the server: `./Client server`

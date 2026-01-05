@@ -58,6 +58,7 @@ class Client {
     void tryWriteToServer(int sockfd, const std::string& message);
     void listenToServer(int sockfd);
     void sendToServer(int sockfd);
+    void drawCircle(int centerX, int centerY, int radius) const;
 public:
     // Public constructor
     Client(const std::string& ipAddress, int port);

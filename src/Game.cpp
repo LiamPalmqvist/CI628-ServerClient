@@ -13,7 +13,7 @@ Paddle::Paddle(const int player) : GameObject()
     else
         _xPos = 770;
     _yPos = 300;
-    _xSize = 10;
+    _xSize = 20;
     _ySize = 100;
     _speed = 10;
 }

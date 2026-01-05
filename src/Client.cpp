@@ -421,6 +421,10 @@ void Client::renderGameObjects() const
 
     for (auto paddle : playerPaddles)
     {
+        float midpoint = paddle.x + (paddle.w / 2);
+        float centerX = midpoint;
+        drawCircle(centerX, paddle.y + paddle.h, paddle.w / 2);
+        drawCircle(centerX, paddle.y, paddle.w / 2);
         SDL_RenderFillRect(renderer, &paddle);
     }
 
@@ -432,29 +436,15 @@ void Client::renderGameObjects() const
     SDL_RenderCopy(renderer, numbers[p1score], nullptr, &destRect1);
     SDL_RenderCopy(renderer, numbers[p2score], nullptr, &destRect2);
 
-    const int centerX = game.ball.get_x_pos();
-    const int centerY = game.ball.get_y_pos();
-    const int radius = game.ball.get_radius();
+    drawCircle(game.ball.get_x_pos(), game.ball.get_y_pos(), game.ball.get_radius());
 
-    for (int i = 0; i < 180; i++)
-    {
-        float angle = i * M_PI / 180.0f;
-
-        float startx = centerX - cos(angle) * radius;
-        float starty = centerY - sin(angle) * radius;
-        float endx = centerX + cos(angle) * radius;
-        float endy = centerY + sin(angle) * radius;
-
-        SDL_RenderDrawLine(renderer, startx, starty, endx, endy);
-    }
-
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    float angle = game.ball.get_direction() * M_PI / 180.0f;
-    float endx = centerX + cos(angle) * radius * 2;
-    float endy = centerY + sin(angle) * radius * 2;
-    SDL_RenderDrawLine(renderer, centerX, centerY, endx, endy);
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
+    // Draw direction line
+    // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    // float angle = game.ball.get_direction() * M_PI / 180.0f;
+    // float endx = centerX + cos(angle) * radius * 2;
+    // float endy = centerY + sin(angle) * radius * 2;
+    // SDL_RenderDrawLine(renderer, centerX, centerY, endx, endy);
+    // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
     //SDL_RenderDrawLine(renderer, 0, 300, 800, 300);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
@@ -470,3 +460,29 @@ void Client::updateGameObjects()
         playerPaddles[i].h = game.playerPaddles[i].get_ySize();
     }
 }
+
+void Client::drawCircle(int centerX, int centerY, int radius) const
+{
+    // for (int i = 0; i < 360; i++)
+    // {
+    //     float angle = i * M_PI / 180.0f;
+    //
+    //     float x = centerX + cos(angle) * radius;
+    //     float y = centerY + sin(angle) * radius;
+    //
+    //     SDL_RenderDrawPoint(renderer, static_cast<int>(x), static_cast<int>(y));
+    // }
+
+    for (int i = 0; i < 180; i++)
+    {
+        float angle = i * M_PI / 180.0f;
+
+        float startx = centerX - cos(angle) * radius;
+        float starty = centerY - sin(angle) * radius;
+        float endx = centerX + cos(angle) * radius;
+        float endy = centerY + sin(angle) * radius;
+
+        SDL_RenderDrawLine(renderer, startx, starty, endx, endy);
+    }
+}
+

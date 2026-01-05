@@ -383,7 +383,7 @@ void Client::loadMedia()
 {
     for (int i = 0; i < 10; i++)
     {
-        std::string path = "assets/numbers/" + std::to_string(i) + ".png";
+        std::string path = "assets/images/numbers/" + std::to_string(i) + ".png";
         SDL_Surface* surface = IMG_Load(path.c_str());
         if (!surface)
         {
@@ -396,6 +396,13 @@ void Client::loadMedia()
         {
             std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
         }
+    }
+
+    ballImage = IMG_LoadTexture(renderer, "assets/images/ball.png");
+    if (!ballImage)
+    {
+        std::cout << "IMG_LoadTexture Error: " << IMG_GetError() << std::endl;
+        windowIsOpen = false;
     }
 
     game.ballHitSound = Mix_LoadWAV("assets/sounds/ball_hit.wav");
@@ -415,7 +422,7 @@ void Client::instantiateGameObjects()
     }
 }
 
-void Client::renderGameObjects() const
+void Client::renderGameObjects()
 {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
@@ -436,7 +443,27 @@ void Client::renderGameObjects() const
     SDL_RenderCopy(renderer, numbers[p1score], nullptr, &destRect1);
     SDL_RenderCopy(renderer, numbers[p2score], nullptr, &destRect2);
 
-    drawCircle(game.ball.get_x_pos(), game.ball.get_y_pos(), game.ball.get_radius());
+    // drawCircle(game.ball.get_x_pos(), game.ball.get_y_pos(), game.ball.get_radius());
+    // Draw the ball
+    SDL_RenderCopyEx(
+        renderer,
+        ballImage,
+        nullptr,
+        new SDL_Rect{
+                static_cast<int>(game.ball.get_x_pos() - game.ball.get_radius()),
+                static_cast<int>(game.ball.get_y_pos() - game.ball.get_radius()),
+                game.ball.get_radius() * 2,
+                game.ball.get_radius() * 2
+        },
+        ballRotation,
+        nullptr,
+        SDL_FLIP_NONE
+    );
+
+    ballRotation += 5.0f;
+    if (ballRotation >= 360.0f)
+        ballRotation = 0.0f;
+
 
     // Draw direction line
     // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);

@@ -34,6 +34,8 @@ class Client {
 
     // SDL_Image INFORMATION
     SDL_Texture* numbers[10] = {};
+    SDL_Texture* ballImage = nullptr;
+    float ballRotation = 0.0f;
 
     // SDL_Mixer INFORMATION
     Mix_Chunk* ballSound = nullptr;
@@ -47,7 +49,7 @@ class Client {
     void getInputs(SDL_Event &event);
     void loadMedia();
     void instantiateGameObjects();
-    void renderGameObjects() const;
+    void renderGameObjects();
     void updateGameObjects();
 
     // Private functions
